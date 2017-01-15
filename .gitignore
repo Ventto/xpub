@@ -1,0 +1,9 @@
+/*
+
+!src/
+src/*
+!src/xpub.sh
+
+!README.md
+!LICENSE
+!.gitignore
