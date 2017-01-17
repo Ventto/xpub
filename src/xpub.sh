@@ -21,23 +21,23 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 usage() {
-    echo -e "Usage: xpub [OPTION]...\n\n
-Options:\n\n
-Information:\n
-  none:\tPrints X environment based on the current tty
-  -t:\tPrints X environment based on the TTY\n
-Miscellaneous:\n
+    echo -e "Usage: xpub [TTY]\n
+Searchs the x env's relevant variables from a given TTY or the current one.
+
   -h:\tPrints this help and exits
-  -v:\tPrints version and exits"
+  -v:\tPrints the version and exits"
 }
 
 version() {
-    echo -e "xpub 0.1
+    echo -e "Xpub 0.1
+
 Copyright (C) 2016 Thomas \"Ventto\" Venries.
-License MIT.
+
+License MIT: <https://opensource.org/licenses/MIT>.
+
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n"
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT."
 }
 
 main () {
