@@ -23,9 +23,9 @@
 usage() {
     echo -e "Usage: xpub [-t TTY]\n
 
-  -h:\tPrints this help and exits
-  -v:\tPrints the version and exits
-  -t:\tPrints the x env's relevant variables from a given TTY
+  -h:\tPrints this help and exits.
+  -v:\tPrints the version and exits.
+  -t:\tPrints the x display environment variables from a given TTY
      \tor from the current one if no argument."
 }
 
