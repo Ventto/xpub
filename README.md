@@ -1,3 +1,4 @@
+
 Xpub
 ===================
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Ventto/xpub/blob/master/LICENSE)
@@ -35,7 +36,7 @@ Usage: xpub [OPTION]...
         or from the current one if no argument.
 ```
 
-# Example
+# Examples
 
 ```
 $ pub
@@ -45,3 +46,29 @@ XAUTHORITY=/home/user1/.Xauthority
 DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
+
+Uses *xpub* in an Udev rule :
+
+```bash
+XPUB=$(xpub 2>/tmp/xpub.log)
+
+[ $# -ne 0 ] && exit 1 || export ${XPUB}
+
+su -m ${XUSER} -c "<command>"
+```
+
+* **XPUB** contains the X display environment variables.
+* **XUSER** the non-privileged user logged on the current tty where a X session is running (given by exporting XPUB).
+
+Or if you prefer only exporting the essentials:
+
+```bash
+XPUB=$(xpub 2>/tmp/xpub.log)
+
+[ $# -ne 0 ] && exit 1 || export ${XPUB}
+
+DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS} \
+DISPLAY=${DISPLAY} XAUTHORITY=${XAUTHORITY} \
+su ${XUSER} -c "<command>"
+```
+
