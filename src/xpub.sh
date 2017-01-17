@@ -71,7 +71,7 @@ main () {
     local xuser=$(who | grep ${xtty} | head -n 1 | cut -d ' ' -f 1)
 
     if [ -z "${xuser}" ]; then
-        echo "No user found from ${xtty}."
+        echo "No user found from ${xtty}." 1>&2
         exit 1
     fi
 
@@ -79,7 +79,7 @@ main () {
         grep -o ":[0-9]" | head -n 1)
 
     if [ -z "${xdisplay}" ] ; then
-        echo "No X process found from ${xtty}."
+        echo "No X process found from ${xtty}." 1>&2
         exit 1
     fi
 
@@ -98,10 +98,10 @@ main () {
     done
 
     if [ -z "${dbus}" ] ; then
-        echo "No session bus address found."
+        echo "No session bus address found." 1>&2
         exit 1
     elif [ -z "${xauth}" ] ; then
-        echo "No Xauthority found."
+        echo "No Xauthority found." 1>&2
         exit 1
     fi
 
