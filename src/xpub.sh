@@ -21,11 +21,12 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 usage() {
-    echo -e "Usage: xpub [TTY]\n
-Searchs the x env's relevant variables from a given TTY or the current one.
+    echo -e "Usage: xpub [-t TTY]\n
 
   -h:\tPrints this help and exits
-  -v:\tPrints the version and exits"
+  -v:\tPrints the version and exits
+  -t:\tPrints the x env's relevant variables from a given TTY
+     \tor from the current one if no argument."
 }
 
 version() {
@@ -47,7 +48,8 @@ main () {
     OPTIND=1
     while getopts "hvt:" opt; do
         case $opt in
-            t)  ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && usage && exit 2
+            t)  OPTARG=$(echo $OPTARG | tr '[:upper:]' '[:lower:]')
+                ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && usage && exit 2
                 tArg=${OPTARG}
                 tFlag=true ;;
             h)  usage   && exit ;;
