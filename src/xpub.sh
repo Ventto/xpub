@@ -21,7 +21,7 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 usage() {
-    echo -e "Usage: xpub [-t TTY]\n
+    echo -e "Usage: xpub [-t TTY]
 
   -h:\tPrints this help and exits.
   -v:\tPrints the version and exits.
@@ -30,7 +30,7 @@ usage() {
 }
 
 version() {
-    echo -e "Xpub 0.1
+    echo -e "Xpub 0.2b
 
 Copyright (C) 2016 Thomas \"Ventto\" Venries.
 
@@ -45,12 +45,14 @@ main () {
     local tFlag=false
     local tArg
 
+    local isXWayland=false
+
     OPTIND=1
     while getopts "hvt:" opt; do
-        case $opt in
-            t)  OPTARG=$(echo $OPTARG | tr '[:upper:]' '[:lower:]')
+        case "$opt" in
+            t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
                 ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && usage && exit 2
-                tArg=${OPTARG}
+                tArg="${OPTARG}"
                 tFlag=true ;;
             h)  usage   && exit ;;
             v)  version && exit ;;
@@ -66,50 +68,61 @@ main () {
 
     local xtty
 
-    ${tFlag} && xtty=${tArg} || xtty=$(cat /sys/class/tty/tty0/active)
+    ${tFlag} && xtty="${tArg}" || xtty="$(cat /sys/class/tty/tty0/active)"
 
-    local xuser=$(who | grep ${xtty} | head -n 1 | cut -d ' ' -f 1)
+    local xuser=$(who | grep "${xtty}" | head -n 1 | cut -d ' ' -f 1)
 
     if [ -z "${xuser}" ]; then
         echo "No user found from ${xtty}." 1>&2
         exit 1
     fi
 
-    xdisplay=$(ps -o command -p $(pgrep Xorg) | grep " vt${xtty:3:${#tty}}" | \
-        grep -o ":[0-9]" | head -n 1)
+    xpids=$(pgrep Xorg)
 
-    if [ -z "${xdisplay}" ] ; then
-        echo "No X process found from ${xtty}." 1>&2
-        exit 1
+    if [ -n "${xpids}" ]; then
+        xdisplay=$(ps -o command -p "${xpids}" | \
+            grep " vt${xtty:3:${#tty}}" | grep -o ":[0-9]" | head -n 1)
     fi
 
-    for pid in $(ps -u ${xuser} -o pid --no-headers) ; do
+
+    if [ -z "${xdisplay}" ]; then
+        #Trying to get the active display from XWayland
+        xdisplay=$(pgrep -a Xwayland | cut -d" " -f3)
+        if [ -z "${xdisplay}" ]; then
+            echo "No X or XWayland process found from ${xtty}." 1>&2
+            exit 1
+        else
+            isXWayland=true
+        fi
+    fi
+
+    for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
         env="/proc/${pid}/environ"
-        display=$(grep -z "^DISPLAY=" ${env} | tr -d '\0' | cut -d '=' -f 2)
-        if [ -n "${display}" ] ; then
-            dbus=$(grep -z "DBUS_SESSION_BUS_ADDRESS=" ${env} | tr -d '\0' | \
+        display=$(grep -z "^DISPLAY=" "${env}" | tr -d '\0' | cut -d '=' -f 2)
+        if [ -n "${display}" ]; then
+            dbus=$(grep -z "DBUS_SESSION_BUS_ADDRESS=" "${env}" | tr -d '\0' | \
                 sed 's/DBUS_SESSION_BUS_ADDRESS=//g')
-            if [ -n ${dbus} ] ; then
-                xauth=$(grep -z "XAUTHORITY=" ${env} | tr -d '\0' | \
+            if [ -n "${dbus}" ]; then
+                xauth=$(grep -z "XAUTHORITY=" "${env}" | tr -d '\0' | \
                     sed 's/XAUTHORITY=//g')
                 break
             fi
         fi
     done
 
-    if [ -z "${dbus}" ] ; then
+    if [ -z "${dbus}" ]; then
         echo "No session bus address found." 1>&2
         exit 1
-    elif [ -z "${xauth}" ] ; then
+    # XWayland does not need Xauthority
+    elif [ -z "${xauth}" ] && [ -n "$xpids" ]; then
         echo "No Xauthority found." 1>&2
         exit 1
     fi
 
-    if ! $tFlag ; then
-        echo -e "TTY=${xtty}\nXUSER=${xuser}\nXAUTHORITY=${xauth}"
-    else
-        echo -e "XUSER=${xuser}\nXAUTHORITY=${xauth}"
-    fi
+
+    ! $tFlag && echo -e "TTY=${xtty}\nXUSER=${xuser}" || echo "XUSER=${xuser}"
+    ! $isXWayland && echo "XAUTHORITY=${xauth}"
+
     echo -e "DISPLAY=${display}\nDBUS_SESSION_BUS_ADDRESS=${dbus}"
 }
 
