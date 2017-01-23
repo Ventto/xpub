@@ -42,10 +42,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT."
 }
 
 main () {
+    local isXWayland=false
     local tFlag=false
     local tArg
-
-    local isXWayland=false
 
     OPTIND=1
     while getopts "hvt:" opt; do
@@ -66,11 +65,9 @@ main () {
         exit 1
     fi
 
-    local xtty
-
     ${tFlag} && xtty="${tArg}" || xtty="$(cat /sys/class/tty/tty0/active)"
 
-    local xuser=$(who | grep "${xtty}" | head -n 1 | cut -d ' ' -f 1)
+    xuser=$(who | grep "${xtty}" | head -n 1 | cut -d ' ' -f 1)
 
     if [ -z "${xuser}" ]; then
         echo "No user found from ${xtty}." 1>&2
