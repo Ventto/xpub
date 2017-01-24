@@ -50,13 +50,13 @@ main () {
     while getopts "hvt:" opt; do
         case "$opt" in
             t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
-                ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && usage && exit 2
+                ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && { usage ; exit 2 }
                 tArg="${OPTARG}"
                 tFlag=true ;;
-            h)  usage   && exit ;;
-            v)  version && exit ;;
-            \?) usage   && exit ;;
-            :)  usage   && exit ;;
+            h)  usage   ; exit ;;
+            v)  version ; exit ;;
+            \?) usage   ; exit ;;
+            :)  usage   ; exit ;;
         esac
     done
 
@@ -67,7 +67,7 @@ main () {
 
     ${tFlag} && xtty="${tArg}" || xtty="$(cat /sys/class/tty/tty0/active)"
 
-    xuser=$(who | grep "${xtty}" | head -n 1 | cut -d ' ' -f 1)
+    xuser=$(who | grep "${xtty}" | head -n 1 | cut -d' ' -f1)
 
     if [ -z "${xuser}" ]; then
         echo "No user found from ${xtty}." 1>&2
@@ -88,14 +88,13 @@ main () {
         if [ -z "${xdisplay}" ]; then
             echo "No X or XWayland process found from ${xtty}." 1>&2
             exit 1
-        else
-            isXWayland=true
         fi
+        isXWayland=true
     fi
 
     for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
         env="/proc/${pid}/environ"
-        display=$(grep -z "^DISPLAY=" "${env}" | tr -d '\0' | cut -d '=' -f 2)
+        display=$(grep -z "^DISPLAY=" "${env}" | tr -d '\0' | cut -d'=' -f2)
         if [ -n "${display}" ]; then
             dbus=$(grep -z "DBUS_SESSION_BUS_ADDRESS=" "${env}" | tr -d '\0' | \
                 sed 's/DBUS_SESSION_BUS_ADDRESS=//g')
@@ -110,8 +109,10 @@ main () {
     if [ -z "${dbus}" ]; then
         echo "No session bus address found." 1>&2
         exit 1
+    fi
+
     # XWayland does not need Xauthority
-    elif [ -z "${xauth}" ] && [ -n "$xpids" ]; then
+    if [ -z "${xauth}" ] && [ -n "$xpids" ]; then
         echo "No Xauthority found." 1>&2
         exit 1
     fi
