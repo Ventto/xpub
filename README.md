@@ -11,7 +11,7 @@ Xpub
 
 # Installation
 
-* Package
+* Package (AUR)
 
 ```
 $ yaourt -S xpub
@@ -52,20 +52,11 @@ DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```bash
 xenv=$(xpub 2>/tmp/xpub.log)
 
-[ $# -ne 0 ] && exit 1 || export ${xenv}
+if [ $# -ne 0 ]; then
+    exit 1
+else
+    export ${xenv}
+fi
 
-su -m ${XUSER} -c "<command>"
+su ${XUSER} -c "command"
 ```
-
-### Or if you prefer only exporting the essentials:
-
-```bash
-xenv=$(xpub 2>/tmp/xpub.log)
-
-[ $# -ne 0 ] && exit 1 || export ${xenv}
-
-DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS} \
-DISPLAY=${DISPLAY} XAUTHORITY=${XAUTHORITY} \
-su ${XUSER} -c "<command>"
-```
-

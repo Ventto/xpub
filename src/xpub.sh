@@ -77,7 +77,7 @@ main () {
     xpids=$(pgrep Xorg)
 
     if [ -n "${xpids}" ]; then
-        xdisplay=$(ps -o command -p "${xpids}" | \
+        xdisplay=$(ps -o command --no-headers -p "${xpids}" | \
             grep " vt${xtty:3:${#tty}}" | grep -o ":[0-9]" | head -n 1)
     fi
 
