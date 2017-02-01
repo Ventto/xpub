@@ -57,6 +57,9 @@ IMPORT{program}="/usr/bin/xpub", \
 RUN+="/bin/su $env{XUSER} -c '/usr/bin/gimp'"
 ```
 
+After editing your rules, you may need to run `udevadm control --reload-rules`.
+
+
 ### Uses *xpub* in Shell script :
 
 ```bash
