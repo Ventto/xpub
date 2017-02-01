@@ -47,7 +47,14 @@ DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
 
-### Uses *xpub* in an Udev rule :
+### Uses *xpub* in Udev rules :
+
+```bash
+IMPORT{program}="/usr/bin/xpub", \
+RUN+="/bin/su $env{XUSER} -c '/usr/bin/gimp'"
+```
+
+### Uses *xpub* in Shell script :
 
 ```bash
 xenv=$(xpub 2>/tmp/xpub.log)
