@@ -11,6 +11,8 @@ Xpub
 
 # Installation
 
+*"Available on Ubuntu soon"*.
+
 * Package (AUR)
 
 ```
@@ -23,6 +25,7 @@ $ yaourt -S xpub
 $ git clone https://github.com/Ventto/xpub.git
 $ cd xpub
 $ chmod +x src/xpub.sh
+$ cp src/xpub.sh /usr/bin/xpub
 ```
 
 # Usage
