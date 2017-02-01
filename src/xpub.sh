@@ -50,9 +50,11 @@ main () {
     while getopts "hvt:" opt; do
         case "$opt" in
             t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
-                ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] && { usage ; exit 2 }
+                if ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] ; then
+                    usage ; exit 2
+                fi
                 tArg="${OPTARG}"
-                tFlag=true ;;
+                tFlag=true     ;;
             h)  usage   ; exit ;;
             v)  version ; exit ;;
             \?) usage   ; exit ;;
