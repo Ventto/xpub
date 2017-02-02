@@ -35,7 +35,7 @@ Usage: xpub [OPTION]...
 
   -h:   Prints this help and exits.
   -v:   Prints the version and exits.
-  -t:   Prints the x display environment variables from a given TTY
+  -t:   Prints the logged user of a given TTY and its X display environment variables.
         or from the current one if no argument.
 ```
 
