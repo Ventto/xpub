@@ -41,7 +41,7 @@ Usage: xpub [OPTION]...
 
 # Examples
 
-```
+```bash
 $ pub
 TTY=tty1
 XUSER=user1
@@ -50,7 +50,7 @@ DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
 
-### Uses *xpub* in Udev rules :
+### From Udev rules :
 
 ```bash
 IMPORT{program}="/usr/bin/xpub", \
@@ -59,8 +59,13 @@ RUN+="/bin/su $env{XUSER} -c '/usr/bin/gimp'"
 
 After editing your rules, you may need to run `udevadm control --reload-rules`.
 
+### From *root* :
 
-### Uses *xpub* in Shell script :
+```bash
+export $(xpub) ; su ${XUSER} -c 'notify-send Hello'
+```
+
+### From Shell scripts :
 
 ```bash
 xenv=$(xpub 2>/tmp/xpub.log)
