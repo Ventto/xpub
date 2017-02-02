@@ -41,7 +41,7 @@ Usage: xpub [OPTION]...
 # Examples
 
 ```bash
-$ pub
+$ xpub
 TTY=tty1
 XUSER=user1
 XAUTHORITY=/home/user1/.Xauthority
