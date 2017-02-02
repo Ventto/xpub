@@ -53,7 +53,7 @@ DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 
 ```bash
 IMPORT{program}="/usr/bin/xpub", \
-RUN+="/bin/su $env{XUSER} -c '/usr/bin/gimp'"
+RUN+="/bin/su $env{XUSER} -c '/usr/bin/notify-send Hello'"
 ```
 
 After editing your rules, you may need to run `udevadm control --reload-rules`.
@@ -75,5 +75,5 @@ else
     export ${xenv}
 fi
 
-su ${XUSER} -c "command"
+su ${XUSER} -c "notify-send Hello"
 ```
