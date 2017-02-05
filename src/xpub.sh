@@ -46,7 +46,6 @@ main () {
     local tFlag=false
     local tArg
 
-    OPTIND=1
     while getopts "hvt:" opt; do
         case "$opt" in
             t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
@@ -61,6 +60,8 @@ main () {
             :)  usage   ; exit ;;
         esac
     done
+
+    shift $((OPTIND - 1))
 
     if [ "$(id -u)" != "0" ]; then
         echo "Run it with sudo."
