@@ -4,7 +4,7 @@ Xpub
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Ventto/xpub/blob/master/LICENSE)
 [![Language (Bash)](https://img.shields.io/badge/powered_by-Bash-brightgreen.svg)](https://www.gnu.org/software/bash)
 
-*"Xpub is a Bash script to get X display environment's variables from anywhere"*
+*"Xpub is a Bash script to get GNU/Linux graphical display environment's variables from anywhere"*
 
 ## Perks
 
@@ -63,10 +63,10 @@ RUN+="/bin/su $env{XUSER} -c '/usr/bin/notify-send Hello'"
 
 After editing your rules, you may need to run `udevadm control --reload-rules`.
 
-### From *root* :
+### From command-line as *root* :
 
 ```bash
-export $(xpub) ; su ${XUSER} -c 'notify-send Hello'
+$ export $(xpub) ; su ${XUSER} -c 'notify-send Hello'
 ```
 
 ### From Shell scripts :
