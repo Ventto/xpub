@@ -25,7 +25,7 @@ usage() {
 
   -h:\tPrints this help and exits.
   -v:\tPrints the version and exits.
-  -t:\tPrints the x display environment variables from a given TTY
+  -t:\tPrints the logged user and its display environment variables from a graphical-session TTY
      \tor from the current one if no argument."
 }
 
