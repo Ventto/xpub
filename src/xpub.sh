@@ -96,13 +96,11 @@ main () {
 
     for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
         env="/proc/${pid}/environ"
-        display=$(grep -z "^DISPLAY=" "${env}" | tr -d '\0' | cut -d'=' -f2)
+        display=$(cat "${env}" | tr '\0' '\n' | grep -E "^DISPLAY=")
         if [ -n "${display}" ]; then
-            dbus=$(grep -z "DBUS_SESSION_BUS_ADDRESS=" "${env}" | tr -d '\0' | \
-                sed 's/DBUS_SESSION_BUS_ADDRESS=//g')
+            dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
             if [ -n "${dbus}" ]; then
-                xauth=$(grep -z "XAUTHORITY=" "${env}" | tr -d '\0' | \
-                    sed 's/XAUTHORITY=//g')
+                xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
                 break
             fi
         fi
@@ -121,9 +119,9 @@ main () {
 
 
     ! $tFlag && echo -e "TTY=${xtty}\nXUSER=${xuser}" || echo "XUSER=${xuser}"
-    ! $isXWayland && echo "XAUTHORITY=${xauth}"
+    ! $isXWayland && echo "${xauth}"
 
-    echo -e "DISPLAY=${display}\nDBUS_SESSION_BUS_ADDRESS=${dbus}"
+    echo -e "${display}\n${dbus}"
 }
 
 main "$@"
