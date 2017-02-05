@@ -6,7 +6,12 @@ Xpub
 
 *"Xpub is a Bash script to get X display environment's variables from anywhere"*
 
-*"The purpose is to help displaying GUI from anywhere even from limited environment as privileged user (ex: udev rules)."*
+## Perks
+
+* [x] **Minimal**: only needs `procps-ng` for *pgrep*.
+* [x] **No more script**: display graphical task directly from udev rules.
+* [x] **Useful**: works with command-line as root.
+* [x] **Not only for X**: fit for Wayland as well:
 
 # Installation
 
@@ -34,7 +39,7 @@ Usage: xpub [OPTION]...
 
   -h:   Prints this help and exits.
   -v:   Prints the version and exits.
-  -t:   Prints the logged user of a given TTY and its X display environment variables.
+  -t:   Prints the logged user and its display environment variables from a graphical-session TTY
         or from the current one if no argument.
 ```
 
