@@ -11,7 +11,6 @@ Xpub
 * [x] **Minimal**: only needs `procps-ng` for *pgrep*.
 * [x] **No more script**: display graphical task directly from udev rules.
 * [x] **Useful**: works with command-line as root.
-* [x] **Not only for X**: fit for Wayland as well:
 
 # Installation
 
@@ -49,7 +48,7 @@ Usage: xpub [OPTION]...
 $ xpub
 TTY=tty1
 XUSER=user1
-XAUTHORITY=/home/user1/.Xauthority
+XAUTHORITY=/home/user1/.Xauthority    (not printed for XWayland)
 DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
