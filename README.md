@@ -9,8 +9,9 @@ Xpub
 ## Perks
 
 * [x] **Minimal**: only needs `procps-ng` for *pgrep*.
-* [x] **No more script**: display graphical task directly from udev rules.
-* [x] **Useful**: works with command-line as root.
+* [x] **Useful**: runs graphical tasks from udev rules and command-line as root.
+* [x] **Painless**: do not care about display environment variables to set anymore.
+* [x] **No more script**:  no additional script to run only one graphical command.
 
 # Installation
 
@@ -18,13 +19,13 @@ Xpub
 
 * Package (AUR)
 
-```
+```bash
 $ yaourt -S xpub
 ```
 
 * Manually
 
-```
+```bash
 $ git clone https://github.com/Ventto/xpub.git
 $ cd xpub
 $ chmod +x src/xpub.sh
