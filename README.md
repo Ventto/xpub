@@ -66,7 +66,7 @@ After editing your rules, you may need to run `udevadm control --reload-rules`.
 ### From command-line as *root* :
 
 ```bash
-$ export $(xpub) ; su ${XUSER} -c 'notify-send Hello'
+$ export $(xpub) ; su "${XUSER}" -c 'notify-send Hello'
 ```
 
 ### From Shell scripts :
@@ -80,5 +80,5 @@ else
     export ${xenv}
 fi
 
-su ${XUSER} -c "notify-send Hello"
+su "${XUSER}" -c "notify-send Hello"
 ```
