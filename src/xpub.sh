@@ -77,13 +77,15 @@ main () {
         exit 1
     fi
 
-    xpids=$(pgrep Xorg)
+    xpids=$(ps -A | grep 'Xorg' | awk '{print $1}')
 
     if [ -n "${xpids}" ]; then
-        xdisplay=$(ps -o command --no-headers -p "${xpids}" | \
-            grep " vt${xtty:3:${#tty}}" | grep -o ":[0-9]" | head -n 1)
+        for xpid in "${xpids}"; do
+            xdisplay=$(ps -o cmd --no-headers ${xpid} | \
+                grep " vt${xtty:3:${#xtty}}" | grep -o ":[0-9]" | head -n 1)
+            [ "$?" -eq 0 ] && break
+        done
     fi
-
 
     if [ -z "${xdisplay}" ]; then
         #Trying to get the active display from XWayland
@@ -122,7 +124,7 @@ main () {
     ! $tFlag && echo -e "TTY=${xtty}\nXUSER=${xuser}" || echo "XUSER=${xuser}"
     ! $isXWayland && echo "${xauth}"
 
-    echo -e "${display}\n${dbus}"
+    echo -e "DISPLAY=${xdisplay}\n${dbus}"
 }
 
 main "$@"
