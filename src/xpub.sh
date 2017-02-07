@@ -99,12 +99,14 @@ main () {
 
     for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
         env="/proc/${pid}/environ"
-        display=$(cat "${env}" | tr '\0' '\n' | grep -E "^DISPLAY=")
+        display=$(cat "${env}" | tr '\0' '\n' | grep -E "^DISPLAY=" | cut -d= -f2)
         if [ -n "${display}" ]; then
-            dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
-            if [ -n "${dbus}" ]; then
-                xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
-                break
+            if [ "${display}" == ${xdisplay} ]; then
+                dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
+                if [ -n "${dbus}" ]; then
+                    xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
+                    break
+                fi
             fi
         fi
     done
