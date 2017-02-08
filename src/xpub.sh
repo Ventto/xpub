@@ -89,25 +89,39 @@ main () {
 
     if [ -z "${xdisplay}" ]; then
         #Trying to get the active display from XWayland
-        xdisplay=$(pgrep -a Xwayland | cut -d" " -f3)
-        if [ -z "${xdisplay}" ]; then
-            echo "No X or XWayland process found from ${xtty}." 1>&2
+        xways=$(ps -A -o tty,pid,cmd | grep Xwayland | grep -v grep)
+
+        if [ -z "${xways}" ]; then
+            echo "No X or XWayland process found from ${xtty}."
             exit 1
         fi
+
+        for xway in "${xways}"; do
+            echo "${xway}"
+            if echo "${xway}" | grep -E "^${xtty}" > /dev/null ; then
+                xdisplay=$(echo "${xway}" | awk '{print $4}')
+                break
+            fi
+        done
+
+        [ -z "${xdisplay}" ] && { echo "Can not find DISPLAY."; exit 1; }
+
         isXWayland=true
     fi
 
     for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
         env="/proc/${pid}/environ"
         display=$(cat "${env}" | tr '\0' '\n' | grep -E "^DISPLAY=" | cut -d= -f2)
-        if [ -n "${display}" ]; then
-            if [ "${display}" == ${xdisplay} ]; then
-                dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
-                if [ -n "${dbus}" ]; then
-                    xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
-                    break
-                fi
-            fi
+
+        if ! $isXWayland && [ -z "${display}" ] || [ "${display}" != "${xdisplay}" ]; then
+            continue
+        fi
+
+        dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
+
+        if ! $isXWayland && [ -n "${dbus}" ]; then
+            xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
+            break
         fi
     done
 
@@ -117,7 +131,7 @@ main () {
     fi
 
     # XWayland does not need Xauthority
-    if [ -z "${xauth}" ] && [ -n "$xpids" ]; then
+    if ! $isXWayland && [ -z "${xauth}" ] ; then
         echo "No Xauthority found." 1>&2
         exit 1
     fi
