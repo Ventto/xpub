@@ -8,7 +8,7 @@ Xpub
 
 ## Perks
 
-* [x] **Minimal**: only needs `procps-ng` for *pgrep*.
+* [x] **No requirement**: full POSIX utilities.
 * [x] **Useful**: runs graphical tasks from udev rules and command-line as root.
 * [x] **Painless**: do not care about display environment variables to set anymore.
 * [x] **No more script**:  no additional script to run only one graphical command.
