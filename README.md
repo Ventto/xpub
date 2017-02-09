@@ -49,7 +49,7 @@ Usage: xpub [OPTION]...
 $ xpub
 TTY=tty1
 XUSER=user1
-XAUTHORITY=/home/user1/.Xauthority    (not printed for XWayland)
+XAUTHORITY=/home/user1/.Xauthority    (not printed if XWayland)
 DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
