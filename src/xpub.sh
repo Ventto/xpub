@@ -30,7 +30,7 @@ usage() {
 }
 
 version() {
-    echo -e "Xpub 0.3
+    echo -e "Xpub 0.5
 
 Copyright (C) 2016 Thomas \"Ventto\" Venries.
 
