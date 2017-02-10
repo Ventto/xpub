@@ -4,14 +4,14 @@ Xpub
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Ventto/xpub/blob/master/LICENSE)
 [![Language (Bash)](https://img.shields.io/badge/powered_by-Bash-brightgreen.svg)](https://www.gnu.org/software/bash)
 
-*"Xpub is a Bash script to get GNU/Linux graphical display environment's variables from anywhere"*
+*"Xpub is a Bash script to get user's display environment variables of any X graphical session from anywhere."*
 
 ## Perks
 
 * [x] **No requirement**: full POSIX utilities.
-* [x] **Useful**: runs graphical tasks from udev rules and command-line as root.
 * [x] **Painless**: do not care about display environment variables to set anymore.
 * [x] **No more script**:  no additional script to run only one graphical command.
+* [x] **Useful**: runs graphical tasks from udev rules and command-line as root.
 
 # Installation
 
@@ -29,7 +29,6 @@ $ yaourt -S xpub
 $ git clone https://github.com/Ventto/xpub.git
 $ cd xpub
 $ chmod +x src/xpub.sh
-$ cp src/xpub.sh /usr/bin/xpub
 ```
 
 # Usage
