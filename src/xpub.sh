@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
 # The MIT License (MIT)
 #
@@ -42,14 +42,13 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.'
 }
 
 main () {
-    local isXWayland=false
-    local tFlag=false
-    local tArg
+    isXWayland=false
+    tFlag=false
 
     while getopts "hvt:" opt; do
         case "$opt" in
             t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
-                if ! [[ "${OPTARG}" =~ ^tty[0-9]$ ]] ; then
+                if ! printf '%s' "${OPTARG}" | grep -E '^tty[0-9]$' > /dev/null; then
                     usage ; exit 2
                 fi
                 tArg="${OPTARG}"
@@ -78,18 +77,19 @@ main () {
     fi
 
     xpids=$(ps -A | grep 'Xorg' | awk '{print $1}')
+    vterm="vt$(printf '%s' "${xtty}" | sed -e 's/tty//g')"
 
     if [ -n "${xpids}" ]; then
         for xpid in "${xpids}"; do
-            xdisplay=$(ps -o cmd --no-headers ${xpid} | \
-                grep " vt${xtty:3:${#xtty}}" | grep -o ":[0-9]" | head -n 1)
+            xdisplay=$(ps -o cmd ${xpid} | grep "${vterm}" | \
+                grep -o ':[0-9]' | head -n 1)
             [ "$?" -eq 0 ] && break
         done
     fi
 
     if [ -z "${xdisplay}" ]; then
         #Trying to get the active display from XWayland
-        xways=$(ps -A -o tty,pid,cmd | grep Xwayland | grep -v 'grep')
+        xways=$(ps -A -o tty= -o pid= -o cmd= | grep Xwayland | grep -v 'grep')
 
         if [ -z "${xways}" ]; then
             echo "No X or XWayland process found from ${xtty}."
@@ -104,14 +104,14 @@ main () {
             fi
         done
 
-        [ -z "${xdisplay}" ] && { echo "Can not find DISPLAY."; exit 1; }
+        [ -z "${xdisplay}" ] && { echo 'Can not find DISPLAY.'; exit 1; }
 
         isXWayland=true
     fi
 
-    for pid in $(ps -u "${xuser}" -o pid --no-headers) ; do
+    for pid in $(ps -u "${xuser}" -o pid=) ; do
         env="/proc/${pid}/environ"
-        display=$(cat "${env}" | tr '\0' '\n' | grep -E "^DISPLAY=" | cut -d= -f2)
+        display=$(cat "${env}" | tr '\0' '\n' | grep -E '^DISPLAY=' | cut -d= -f2)
 
         if ! $isXWayland && [ -z "${display}" ] || [ "${display}" != "${xdisplay}" ]; then
             continue
@@ -137,10 +137,11 @@ main () {
     fi
 
 
-    ! $tFlag && echo -e "TTY=${xtty}\nXUSER=${xuser}" || echo "XUSER=${xuser}"
+    ! $tFlag && { echo  "TTY=${xtty}"; echo "XUSER=${xuser}"; } || echo "XUSER=${xuser}"
     ! $isXWayland && echo "${xauth}"
 
-    echo -e "DISPLAY=${xdisplay}\n${dbus}"
+    echo "DISPLAY=${xdisplay}"
+    echo "${dbus}"
 }
 
 main "$@"
