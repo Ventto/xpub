@@ -2,20 +2,17 @@ Xpub
 ====
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Ventto/xpub/blob/master/LICENSE)
-[![Language (Bash)](https://img.shields.io/badge/powered_by-Bash-brightgreen.svg)](https://www.gnu.org/software/bash)
 
-*"Xpub is a Bash script to get user's display environment variables of any X graphical session from anywhere."*
+*"Xpub is a Shell script to get user's display environment variables of any X graphical session from anywhere."*
 
 ## Perks
 
-* [x] **No requirement**: full POSIX utilities.
-* [x] **Painless**: do not care about display environment variables to set anymore.
-* [x] **No more script**:  no additional script to run only one graphical command.
-* [x] **Useful**: runs graphical tasks from udev rules and command-line as root.
+* [x] **No requirement**: near POSIX compliance.
+* [x] **No more script**: run graphical tasks directly from udev rules.
+* [x] **Painless**: do not care about correctly setting display environment variables.
+* [x] **Useful**: *export* it and run GUI tasks from CLI as root.
 
 # Installation
-
-*"Available on Ubuntu soon"*.
 
 * Package (AUR)
 
