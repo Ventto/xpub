@@ -21,24 +21,24 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 usage() {
-    echo -e "Usage: xpub [-t TTY]
+    echo 'Usage: xpub [-t TTY]
 
-  -h:\tPrints this help and exits.
-  -v:\tPrints the version and exits.
-  -t:\tPrints the logged user and its display environment variables from a graphical-session TTY
-     \tor from the current one if no argument."
+  -h:    Prints this help and exits.
+  -v:    Prints the version and exits.
+  -t:    Prints the logged user and its display environment variables
+         from a graphical-session TTY or from the current one if no argument.'
 }
 
 version() {
-    echo -e "Xpub 0.5
+    echo 'Xpub 0.5
 
-Copyright (C) 2016 Thomas \"Ventto\" Venries.
+Copyright (C) 2016 Thomas "Ventto" Venries.
 
 License MIT: <https://opensource.org/licenses/MIT>.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT."
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.'
 }
 
 main () {
@@ -64,7 +64,7 @@ main () {
     shift $((OPTIND - 1))
 
     if [ "$(id -u)" != "0" ]; then
-        echo "Run it with sudo."
+        echo 'Run it with sudo.'
         exit 1
     fi
 
@@ -89,7 +89,7 @@ main () {
 
     if [ -z "${xdisplay}" ]; then
         #Trying to get the active display from XWayland
-        xways=$(ps -A -o tty,pid,cmd | grep Xwayland | grep -v grep)
+        xways=$(ps -A -o tty,pid,cmd | grep Xwayland | grep -v 'grep')
 
         if [ -z "${xways}" ]; then
             echo "No X or XWayland process found from ${xtty}."
@@ -117,22 +117,22 @@ main () {
             continue
         fi
 
-        dbus=$(cat "${env}" | tr '\0' '\n' | grep -E "^DBUS_SESSION_BUS_ADDRESS=")
+        dbus=$(cat "${env}" | tr '\0' '\n' | grep -E '^DBUS_SESSION_BUS_ADDRESS=')
 
         if ! $isXWayland && [ -n "${dbus}" ]; then
-            xauth=$(cat "${env}" | tr '\0' '\n' | grep -E "^XAUTHORITY=")
+            xauth=$(cat "${env}" | tr '\0' '\n' | grep -E '^XAUTHORITY=')
             break
         fi
     done
 
     if [ -z "${dbus}" ]; then
-        echo "No session bus address found." 1>&2
+        echo 'No session bus address found.' 1>&2
         exit 1
     fi
 
     # XWayland does not need Xauthority
     if ! $isXWayland && [ -z "${xauth}" ] ; then
-        echo "No Xauthority found." 1>&2
+        echo 'No Xauthority found.' 1>&2
         exit 1
     fi
 
