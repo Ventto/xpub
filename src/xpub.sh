@@ -113,14 +113,14 @@ main () {
         env="/proc/${pid}/environ"
         display=$(cat "${env}" | tr '\0' '\n' | grep -E '^DISPLAY=' | cut -d= -f2)
 
-        if ! $isXWayland && [ -z "${display}" ] || [ "${display}" != "${xdisplay}" ]; then
+        if [ -z "${display}" ] || [ "${display}" != "${xdisplay}" ]; then
             continue
         fi
 
         dbus=$(cat "${env}" | tr '\0' '\n' | grep -E '^DBUS_SESSION_BUS_ADDRESS=')
 
-        if ! $isXWayland && [ -n "${dbus}" ]; then
-            xauth=$(cat "${env}" | tr '\0' '\n' | grep -E '^XAUTHORITY=')
+        if [ -n "${dbus}" ]; then
+            ! $isXWayland && xauth=$(cat "${env}" | tr '\0' '\n' | grep -E '^XAUTHORITY=')
             break
         fi
     done
