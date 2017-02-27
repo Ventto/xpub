@@ -81,9 +81,11 @@ main () {
 
     if [ -n "${xpids}" ]; then
         for xpid in "${xpids}"; do
-            xdisplay=$(ps -o cmd ${xpid} | grep "${vterm}" | \
-                grep -o ':[0-9]' | head -n 1)
-            [ "$?" -eq 0 ] && break
+            xdisplay=$(ps -o cmd= ${xpid} | grep "${vterm}" | grep -E -o ':[0-9]')
+            if [ "$?" -eq 0 ]; then
+                xdisplay=$(echo "${xdisplay}" | head -n1);
+                break;
+            fi
         done
     fi
 
