@@ -7,7 +7,7 @@ Xpub
 
 ## Perks
 
-* [x] **No requirement**: near POSIX compliance.
+* [x] **No requirement**: fully POSIX compliant.
 * [x] **No more script**: run graphical tasks directly from udev rules.
 * [x] **Painless**: do not care about correctly setting display environment variables.
 * [x] **Useful**: *export* it and run GUI tasks from CLI as root.
