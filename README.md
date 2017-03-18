@@ -7,10 +7,10 @@ Xpub
 
 ## Perks
 
-* [x] **No requirement**: fully POSIX compliant.
-* [x] **No more script**: run graphical tasks directly from udev rules.
-* [x] **Painless**: do not care about correctly setting display environment variables.
-* [x] **Useful**: *export* it and run GUI tasks from CLI as root.
+* [x] **No requirement**: POSIX-compliant.
+* [x] **Painless**: do not care about which display environment variables to set anymore.
+* [x] **Runs x-tasks in udevrules**:  no more script to run one graphical command.
+* [x] **Useful**: runs graphical tasks from high-privileged users and limited environments.
 
 # Installation
 
