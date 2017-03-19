@@ -127,9 +127,12 @@ main () {
     fi
 
     # XWayland does not need Xauthority
-    if ! $isXWayland && [ -z "${xauth}" ] ; then
-        echo 'No Xauthority found.' 1>&2
-        exit 1
+    if ! $isXWayland && [ -z "${xauth}" ]; then
+        if [ ! -r "/home/${xuser}/.Xauthority" ]; then
+            echo 'No Xauthority found.' 1>&2
+            exit 1
+        fi
+        xauth="XAUTHORITY=/home/${xuser}/.Xauthority"
     fi
 
     $tFlag && echo "XUSER=${xuser}" || printf "%s\n%s\n" "TTY=${xtty}" "XUSER=${xuser}"
