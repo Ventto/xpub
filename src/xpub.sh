@@ -45,9 +45,9 @@ main () {
     isXWayland=false
     tFlag=false
 
-    while getopts "hvt:" opt; do
-        case "$opt" in
-            t)  OPTARG=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
+    while getopts 'hvt:' opt; do
+        case $opt in
+            t)  OPTARG="$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')"
                 if ! printf '%s' "${OPTARG}" | grep -E '^tty[0-9]$' > /dev/null; then
                     usage ; exit 2
                 fi
@@ -62,29 +62,23 @@ main () {
 
     shift $((OPTIND - 1))
 
-    if [ "$(id -u)" != "0" ]; then
-        echo 'Run it with sudo.'
-        exit 1
-    fi
+    [ "$(id -u)" -ne 0 ] && { echo 'Run it with sudo.'; exit 1; }
 
     ${tFlag} && xtty="${tArg}" || xtty="$(cat /sys/class/tty/tty0/active)"
 
-    xuser=$(who | grep "${xtty}" | head -n 1 | cut -d' ' -f1)
+    xuser="$(who | grep "${xtty}" | head -n 1 | cut -d' ' -f1)"
 
-    if [ -z "${xuser}" ]; then
-        echo "No user found from ${xtty}." 1>&2
-        exit 1
-    fi
+    [ -z "${xuser}" ] && { echo "No user found from ${xtty}." 1>&2; exit 1; }
 
-    xpids=$(ps -A | grep 'Xorg' | awk '{print $1}')
+    xpids="$(ps -A | grep 'Xorg' | awk '{print $1}')"
     vterm="vt$(printf '%s' "${xtty}" | sed -e 's/tty//g')"
 
     if [ -n "${xpids}" ]; then
         for xpid in "${xpids}"; do
-            xdisplay=$(ps -o cmd= ${xpid} | grep "${vterm}" | grep -E -o ':[0-9]')
+            xdisplay="$(ps -o cmd= "${xpid}" | grep "${vterm}" | grep -E -o ':[0-9]')"
             if [ "$?" -eq 0 ]; then
-                xdisplay=$(echo "${xdisplay}" | head -n1);
-                break;
+                xdisplay="$(echo "${xdisplay}" | head -n1)"
+                break
             fi
         done
     fi
@@ -101,7 +95,7 @@ main () {
         for xway in "${xways}"; do
             echo "${xway}"
             if echo "${xway}" | grep -E "^${xtty}" > /dev/null ; then
-                xdisplay=$(echo "${xway}" | awk '{print $4}')
+                xdisplay="$(echo "${xway}" | awk '{print $4}')"
                 break
             fi
         done
@@ -111,18 +105,18 @@ main () {
         isXWayland=true
     fi
 
-    for pid in $(ps -u "${xuser}" -o pid=) ; do
+    for pid in $(ps -u "${xuser}" -o pid=); do
         env="/proc/${pid}/environ"
-        display=$(cat "${env}" | tr '\0' '\n' | grep -E '^DISPLAY=' | cut -d= -f2)
+        display="$(cat "${env}" | tr '\0' '\n' | grep -E '^DISPLAY=' | cut -d= -f2)"
 
         if [ -z "${display}" ] || [ "${display}" != "${xdisplay}" ]; then
             continue
         fi
 
-        dbus=$(cat "${env}" | tr '\0' '\n' | grep -E '^DBUS_SESSION_BUS_ADDRESS=')
+        dbus="$(cat "${env}" | tr '\0' '\n' | grep -E '^DBUS_SESSION_BUS_ADDRESS=')"
 
         if [ -n "${dbus}" ]; then
-            ! $isXWayland && xauth=$(cat "${env}" | tr '\0' '\n' | grep -E '^XAUTHORITY=')
+            ! $isXWayland && xauth="$(cat "${env}" | tr '\0' '\n' | grep -E '^XAUTHORITY=')"
             break
         fi
     done
@@ -138,12 +132,10 @@ main () {
         exit 1
     fi
 
-
-    ! $tFlag && { echo  "TTY=${xtty}"; echo "XUSER=${xuser}"; } || echo "XUSER=${xuser}"
+    $tFlag && echo "XUSER=${xuser}" || printf "%s\n%s\n" "TTY=${xtty}" "XUSER=${xuser}"
     ! $isXWayland && echo "${xauth}"
 
-    echo "DISPLAY=${xdisplay}"
-    echo "${dbus}"
+    printf "%s\n%s" "DISPLAY=${xdisplay}" "${dbus}"
 }
 
 main "$@"
