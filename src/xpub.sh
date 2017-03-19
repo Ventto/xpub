@@ -74,7 +74,7 @@ main () {
     vterm="vt$(printf '%s' "${xtty}" | sed -e 's/tty//g')"
 
     if [ -n "${xpids}" ]; then
-        for xpid in "${xpids}"; do
+        for xpid in ${xpids}; do
             xdisplay="$(ps -o cmd= "${xpid}" | grep "${vterm}" | grep -E -o ':[0-9]')"
             if [ "$?" -eq 0 ]; then
                 xdisplay="$(echo "${xdisplay}" | head -n1)"
@@ -92,8 +92,7 @@ main () {
             exit 1
         fi
 
-        for xway in "${xways}"; do
-            echo "${xway}"
+        for xway in ${xways}; do
             if echo "${xway}" | grep -E "^${xtty}" > /dev/null ; then
                 xdisplay="$(echo "${xway}" | awk '{print $4}')"
                 break
