@@ -85,21 +85,13 @@ main () {
 
     if [ -z "${xdisplay}" ]; then
         #Trying to get the active display from XWayland
-        xways=$(ps -A -o tty= -o pid= -o cmd= | grep Xwayland | grep -v 'grep')
+        xdisplay="$(ps -A -o tty= -o cmd= | grep Xwayland | \
+            grep -v 'grep' | grep "${xtty}" | awk '{print $3}')"
 
-        if [ -z "${xways}" ]; then
+        if [ -z "${xdisplay}" ]; then
             echo "No X or XWayland process found from ${xtty}."
             exit 1
         fi
-
-        for xway in ${xways}; do
-            if echo "${xway}" | grep -E "^${xtty}" > /dev/null ; then
-                xdisplay="$(echo "${xway}" | awk '{print $4}')"
-                break
-            fi
-        done
-
-        [ -z "${xdisplay}" ] && { echo 'Can not find DISPLAY.'; exit 1; }
 
         isXWayland=true
     fi
