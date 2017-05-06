@@ -41,6 +41,8 @@ Usage: xpub [OPTION]...
 
 # Examples
 
+
+* From terminal (*sudo* is required):
 ```bash
 $ xpub
 TTY=tty1
@@ -50,7 +52,7 @@ DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
 ```
 
-### From Udev rules :
+* From Udev rules:
 
 ```bash
 IMPORT{program}="/usr/bin/xpub", \
@@ -59,13 +61,13 @@ RUN+="/bin/su $env{XUSER} -c '/usr/bin/notify-send Hello'"
 
 After editing your rules, you may need to run `udevadm control --reload-rules`.
 
-### From command-line as *root* :
+* From command-line as **root**:
 
 ```bash
 $ export $(xpub) ; su "${XUSER}" -c 'notify-send Hello'
 ```
 
-### From Shell scripts :
+* From Shell scripts:
 
 ```bash
 xenv=$(xpub 2>/tmp/xpub.log)
