@@ -44,19 +44,20 @@ Without option, prints the X session information of the current user.
 # Examples
 
 
-* From terminal (*sudo* is required):
-```bash
+* From terminal, (*sudo* is required):
+```
 $ xpub
-TTY=<current_tty>
-XUSER=<my_current_user>
-XAUTHORITY=<path>
-DISPLAY=:2
+TTY=tty1
+XUSER=ventto
+XAUTHORITY=/home/ventto/.Xauthority
+DISPLAY=:0
 DBUS_SESSION_BUS_ADDRESS=<addr>
+
 $ xpub -t tty2
 XUSER=<user>
 XAUTHORITY=<path>
-DISPLAY=:1
-DBUS_SESSION_BUS_ADDRESS=unix:path=<path>
+DISPLAY=<n>
+DBUS_SESSION_BUS_ADDRESS=<addr>
 ```
 
 * From Udev rules:
