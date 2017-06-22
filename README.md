@@ -80,7 +80,7 @@ After editing your rules, you may need to run `udevadm control --reload-rules`.
 ### For *root* 
 
 ```bash
-$ export $(xpub) ; su "${XUSER}" -c 'notify-send Hello'
+$ export $(xpub) ; su "${XUSER}" -c '/usr/bin/notify-send Hello'
 ```
 
 ### Shell scripts
