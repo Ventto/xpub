@@ -8,7 +8,7 @@ Xpub
 ## Perks
 
 * [x] **No requirement**: POSIX-compliant.
-* [x] **Omniscient**: Provide X session variables of any user from any user.
+* [x] **Omniscient**: Provide X environment variables of any session from any user.
 * [x] **Usefull**: Run graphical commands from udevrules (see below).
 * [x] **Extra**: Display graphical command on a specific session.
 * [x] **Support**: XWayland users, keep calm.
@@ -32,12 +32,13 @@ $ chmod +x src/xpub.sh
 # Usage
 
 ```
-Usage: xpub [OPTION]...
+Usage: xpub [-t TTY]
+
+Without option, prints the X session information of the current user.
 
   -h:   Prints this help and exits.
   -v:   Prints the version and exits.
-  -t:   Prints the logged user and its display environment variables from a graphical-session TTY
-        or from the current one if no argument.
+  -t:   prints the current TTY's user X session information.
 ```
 
 # Examples
@@ -46,11 +47,16 @@ Usage: xpub [OPTION]...
 * From terminal (*sudo* is required):
 ```bash
 $ xpub
-TTY=tty1
-XUSER=user1
-XAUTHORITY=/home/user1/.Xauthority    (not printed if XWayland)
-DISPLAY=:0
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1022/bus
+TTY=<current_tty>
+XUSER=<my_current_user>
+XAUTHORITY=<path>
+DISPLAY=:2
+DBUS_SESSION_BUS_ADDRESS=<addr>
+$ xpub -t tty2
+XUSER=<user>
+XAUTHORITY=<path>
+DISPLAY=:1
+DBUS_SESSION_BUS_ADDRESS=unix:path=<path>
 ```
 
 * From Udev rules:
