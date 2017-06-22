@@ -44,7 +44,12 @@ Without option, prints the X session information of the current user.
 # Examples
 
 
-* From terminal, (*sudo* is required):
+### From terminal
+
+*sudo* is required.
+
+* Get information of your current session:
+
 ```
 $ xpub
 TTY=<current_tty>
@@ -52,7 +57,10 @@ XUSER=<myuser>
 XAUTHORITY=<path>
 DISPLAY=<n>
 DBUS_SESSION_BUS_ADDRESS=<addr>
+```
 
+* Get information of a specific session:
+```
 $ xpub -t tty2
 XUSER=<user>
 XAUTHORITY=<path>
@@ -60,7 +68,7 @@ DISPLAY=<n>
 DBUS_SESSION_BUS_ADDRESS=<addr>
 ```
 
-* From Udev rules:
+### Udev rules
 
 ```bash
 IMPORT{program}="/usr/bin/xpub", \
@@ -69,13 +77,13 @@ RUN+="/bin/su $env{XUSER} -c '/usr/bin/notify-send Hello'"
 
 After editing your rules, you may need to run `udevadm control --reload-rules`.
 
-* From command-line as **root**:
+### For *root* 
 
 ```bash
 $ export $(xpub) ; su "${XUSER}" -c 'notify-send Hello'
 ```
 
-* From Shell scripts:
+### Shell scripts
 
 ```bash
 xenv=$(xpub 2>/tmp/xpub.log)
