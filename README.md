@@ -8,7 +8,7 @@ Xpub
 ## Perks
 
 * [x] **No requirement**: POSIX-compliant.
-* [x] **Omniscient**: Provide X environment variables of any session from any user.
+* [x] **Omniscient**: Provides X environment variables of any session from any user.
 * [x] **Usefull**: Run graphical commands from udevrules (see below).
 * [x] **Extra**: Display graphical command on a specific session.
 * [x] **Support**: XWayland users, keep calm.
