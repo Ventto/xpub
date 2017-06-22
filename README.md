@@ -94,5 +94,5 @@ else
     export ${xenv}
 fi
 
-su "${XUSER}" -c "notify-send Hello"
+su "${XUSER}" -c "/usr/bin/notify-send Hello"
 ```
