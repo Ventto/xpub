@@ -47,10 +47,10 @@ Without option, prints the X session information of the current user.
 * From terminal, (*sudo* is required):
 ```
 $ xpub
-TTY=tty1
-XUSER=ventto
-XAUTHORITY=/home/ventto/.Xauthority
-DISPLAY=:0
+TTY=<current_tty>
+XUSER=<myuser>
+XAUTHORITY=<path>
+DISPLAY=<n>
 DBUS_SESSION_BUS_ADDRESS=<addr>
 
 $ xpub -t tty2
