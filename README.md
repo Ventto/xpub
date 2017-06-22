@@ -8,9 +8,10 @@ Xpub
 ## Perks
 
 * [x] **No requirement**: POSIX-compliant.
-* [x] **Painless**: do not care about which display environment variables to set anymore.
-* [x] **Runs x-tasks in udevrules**:  no more script to run one graphical command.
-* [x] **Useful**: runs graphical tasks from high-privileged users and limited environments.
+* [x] **Omniscient**: Provide X session variables of any user from any user.
+* [x] **Usefull**: Run graphical commands from udevrules (see below).
+* [x] **Extra**: Display graphical command on a specific session.
+* [x] **Support**: XWayland users, keep calm.
 
 # Installation
 
