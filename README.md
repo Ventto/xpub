@@ -2,6 +2,7 @@ Xpub
 ====
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Ventto/xpub/blob/master/LICENSE)
+[![Vote for xpub](https://img.shields.io/badge/AUR-Vote_for-yellow.svg)](https://aur.archlinux.org/packages/xpub/)
 
 *"Xpub is a Shell script to get user's display environment variables of any X graphical session from anywhere."*
 
