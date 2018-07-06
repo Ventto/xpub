@@ -51,7 +51,7 @@ Without option, prints the X session information of the current user.
 
 * Get information of your current session:
 
-```
+```python
 $ xpub
 TTY=<current_tty>
 XUSER=<myuser>
@@ -61,7 +61,8 @@ DBUS_SESSION_BUS_ADDRESS=<addr>
 ```
 
 * Get information of a specific session:
-```
+
+```python
 $ xpub -t tty2
 XUSER=<user>
 XAUTHORITY=<path>
@@ -71,7 +72,7 @@ DBUS_SESSION_BUS_ADDRESS=<addr>
 
 ### Udev rules
 
-```bash
+```python
 IMPORT{program}="/usr/bin/xpub", \
 RUN+="/bin/su $env{XUSER} -c '/usr/bin/notify-send Hello'"
 ```
