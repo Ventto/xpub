@@ -51,23 +51,23 @@ Without option, prints the X session information of the current user.
 
 * Get information of your current session:
 
-```python
+```bash
 $ xpub
-TTY=<current_tty>
-XUSER=<myuser>
-XAUTHORITY=<path>
-DISPLAY=<n>
-DBUS_SESSION_BUS_ADDRESS=<addr>
+TTY=tty2
+XUSER=alice
+XAUTHORITY=/home/alice/.Xauthority
+DISPLAY=:0
+DBUS_SESSION_BUS_ADDRESS=/path
 ```
 
 * Get information of a specific session:
 
-```python
+```bash
 $ xpub -t tty2
-XUSER=<user>
-XAUTHORITY=<path>
-DISPLAY=<n>
-DBUS_SESSION_BUS_ADDRESS=<addr>
+XUSER=alice
+XAUTHORITY=/home/alice/.Xauthority
+DISPLAY=:0
+DBUS_SESSION_BUS_ADDRESS=/path
 ```
 
 ### Udev rules
